@@ -1,7 +1,7 @@
 # Official NucleScript Language & Preset Ecosystem
 
 > [!TIP]
-> 📦 **Official Published Packages:** Install or inspect our standard biological presets directly from the **[Official GitHub Packages Registry (`presets`)](https://github.com/orgs/Nuclescript/packages/npm/package/presets)**.
+> 📦 **Official Published Packages:** Browse or install official language presets and modules directly from our **[Packages Registry](https://github.com/orgs/Nuclescript/packages)**.
 
 Welcome to the official **@Nuclescript** GitHub organization — the dedicated home for standard biological presets, community packages, playground modules, and language specification for **NucleScript**.
 
