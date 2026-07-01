@@ -2,8 +2,9 @@
 
 > [!TIP]
 > 📦 **Official Published Packages:** Browse or install official language presets and modules directly from our **[Packages Registry](https://github.com/orgs/Nuclescript/packages)**.
+> 🧪 **Try it now:** the interactive [**Playground**](https://github.com/Nuclescript/playground) runs standalone — clone it and `cargo run -p nucle_playground`.
 
-Welcome to the official **@Nuclescript** GitHub organization — the dedicated home for standard biological presets, community packages, playground modules, and language specification for **NucleScript**.
+Welcome to the official **Nuclescript** GitHub organization — the dedicated home for standard biological presets, the interactive playground, and the package registry for **NucleScript**.
 
 ---
 
@@ -26,6 +27,17 @@ store "critical_records.tar" into archive {
 }
 ```
 
+Functions are reusable, effect-checked units — calling one that touches
+hardware or destroys data requires the same confirmation a literal operation
+would, even through the call:
+
+```nuclescript
+fn archive_with_guarantee(data: File, target: Pool<Illumina>, guarantee: Recovery) returns DnaFile {
+    let plan: DnaFile = protect data for guarantee
+    store plan into target
+}
+```
+
 ---
 
 ## ⚡ Powered by NucleOS
@@ -33,30 +45,53 @@ store "critical_records.tar" into archive {
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
 - **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) for CLI tools, storage engine binaries, error-correction codecs (Reed-Solomon, Fountain, Yin-Yang), and simulator profiles.
-- **Language & Preset Packages:** This organization houses standard library imports, package registry guidelines, and web playground integrations.
+- **Playground:** [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is a self-contained mirror of the engine plus an interactive web UI — paste a `.nsl` program and see diagnostics, simulation steps, and optimizer notes without installing anything beyond `cargo`.
+- **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
 ---
 
-## Built-in Presets
+## Official Packages
 
-When importing from `"nuclescript/presets"`, the language compiler resolves standard biological configurations validated against production hardware specs:
+Four packages are published today, each versioned independently of NucleOS itself:
 
-| Preset | Target Profile | Redundancy | Description |
-| :--- | :--- | :--- | :--- |
-| `illumina_recovery` | `Illumina` | `4x` | High-accuracy consensus recovery optimized for Illumina sequencing profiles |
-| `nanopore_resilient` | `Nanopore` | `6x` | Heavy Reed-Solomon erasure coding tailored for higher insertion/deletion rates |
-| `twist_synthesis` | `Twist` | `3x` | Optimized density and screening for Twist Bioscience silicon pools |
+| Package | Import source | Purpose |
+| :--- | :--- | :--- |
+| [`@nuclescript/presets`](https://github.com/orgs/Nuclescript/packages/npm/package/presets) | `nuclescript/presets` | Baseline archive pool schemas, a reliable-store pipeline, and an `archive_with_guarantee` function |
+| [`@nuclescript/profiles`](https://github.com/orgs/Nuclescript/packages/npm/package/profiles) | `nuclescript/profiles` | Illumina/Nanopore/Twist pool presets at optimizer-recommended redundancy, plus per-profile simulate functions |
+| [`@nuclescript/benchmarks`](https://github.com/orgs/Nuclescript/packages/npm/package/benchmarks) | `nuclescript/benchmarks` | Pool schemas and pipelines matching the core repo's standard fixture set |
+| [`@nuclescript/recovery`](https://github.com/orgs/Nuclescript/packages/npm/package/recovery) | `nuclescript/recovery` | Consensus/recovery pool bindings and a `recover_with_consensus` function |
+
+Every package is compiler-validated before publish (`nucle package verify`)
+and every exported symbol carries a `kind` (pool schema, pipeline, recovery
+profile, or function) plus a description — see each package's own README
+under [`VyomKulshrestha/Nucle-OS/packages/`](https://github.com/VyomKulshrestha/Nucle-OS/tree/main/packages)
+for its exact exports.
 
 ---
 
 ## Getting Started
 
-To run or plan a NucleScript source file using the core engine:
+Install/build the core CLI from [VyomKulshrestha/Nucle-OS](https://github.com/VyomKulshrestha/Nucle-OS), then:
 
 ```bash
-# Install or build the core CLI from VyomKulshrestha/Nucle-OS
-$ nucle plan my_pipeline.nsl
-$ nucle run my_pipeline.nsl
+# Compile-only validation — no hardware, no execution
+nucle check my_pipeline.nsl
+
+# Explain what a program does and why the optimizer changed anything
+nucle explain my_pipeline.nsl
+
+# Preview a no-hardware simulation plan, or actually run it
+nucle plan my_pipeline.nsl
+nucle run my_pipeline.nsl
+
+# Inspect or install an official package
+nucle package inspect "@nuclescript/presets"
+nucle package install "@nuclescript/presets"
+
+# Environment and integrity diagnostics
+nucle doctor
 ```
 
-For contributions, package submissions, or language specifications, explore our repositories or connect with the core engine repository.
+Or skip installation entirely and try the [**playground**](https://github.com/Nuclescript/playground) in your browser.
+
+For contributions, package submissions, or language specification questions, open an issue against [VyomKulshrestha/Nucle-OS](https://github.com/VyomKulshrestha/Nucle-OS) — that's the engine's source of truth.
