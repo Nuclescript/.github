@@ -2,7 +2,7 @@
 
 > [!TIP]
 > 📦 **Official Published Packages:** Browse or install official language presets and modules directly from our **[Packages Registry](https://github.com/orgs/Nuclescript/packages)**.
-> 🧪 **Try it now:** the interactive [**Playground**](https://github.com/Nuclescript/playground) has a live Write & Run editor, a Benchmark Explorer, and a Pipeline Visualizer. Run standalone with `cargo run -p nucle_playground`, or skip the toolchain entirely and grab a prebuilt binary from its **[Releases](https://github.com/Nuclescript/playground/releases)**.
+> 🧪 **[Try it live in your browser](https://nuclescript.github.io/playground/)** — no install, no download. The same Write & Run editor, Benchmark Explorer, and Pipeline Visualizer, compiled to WebAssembly and running entirely client-side. Prefer a native binary? `cargo run -p nucle_playground`, or grab a prebuilt one from the [**Releases**](https://github.com/Nuclescript/playground/releases) page.
 
 Welcome to the official **Nuclescript** GitHub organization — the dedicated home for standard biological presets, the interactive playground, and the package registry for **NucleScript**.
 
@@ -45,7 +45,7 @@ fn archive_with_guarantee(data: File, target: Pool<Illumina>, guarantee: Recover
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
 - **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.0**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.0) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), and simulator profiles.
-- **Playground:** [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
+- **Playground:** **[Live in your browser](https://nuclescript.github.io/playground/)** — compiled to WebAssembly, no server, redeployed automatically on every push. [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is the source: a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt native binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
 - **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
 ---
@@ -92,6 +92,6 @@ nucle package install "@nuclescript/presets"
 nucle doctor
 ```
 
-Or skip installation entirely: grab a prebuilt binary from the playground's [**Releases**](https://github.com/Nuclescript/playground/releases) page and try it locally with zero setup.
+Or skip installation entirely: **[try it live in your browser](https://nuclescript.github.io/playground/)**, or grab a prebuilt binary from the playground's [**Releases**](https://github.com/Nuclescript/playground/releases) page and try it locally with zero setup.
 
 For contributions, package submissions, or language specification questions, open an issue against [VyomKulshrestha/Nucle-OS](https://github.com/VyomKulshrestha/Nucle-OS) — that's the engine's source of truth.
