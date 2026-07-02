@@ -44,7 +44,7 @@ fn archive_with_guarantee(data: File, target: Pool<Illumina>, guarantee: Recover
 
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
-- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) for CLI tools, storage engine binaries, error-correction codecs (Reed-Solomon, Fountain, Yin-Yang), and simulator profiles.
+- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.0**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.0) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), and simulator profiles.
 - **Playground:** [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
 - **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
