@@ -1,6 +1,7 @@
 # Official NucleScript Language & Preset Ecosystem
 
 > [!TIP]
+> 🧩 **[VS Code extension](https://marketplace.visualstudio.com/items?itemName=nuclescript.nuclescript):** syntax highlighting, live diagnostics, formatting, and a one-click ▷ **Run File** button — install it and write/run a `.nsl` program with nothing else to set up (both `nucle-lsp` and `nucle-cli` download themselves on first use).
 > 📦 **Official Published Packages:** Browse or install official language presets and modules directly from our **[Packages Registry](https://github.com/orgs/Nuclescript/packages)**.
 > 🧪 **[Try it live in your browser](https://nuclescript.github.io/playground/)** — no install, no download. The same Write & Run editor, Benchmark Explorer, and Pipeline Visualizer, compiled to WebAssembly and running entirely client-side. Prefer a native binary? `cargo run -p nucle_playground`, or grab a prebuilt one from the [**Releases**](https://github.com/Nuclescript/playground/releases) page.
 
@@ -71,7 +72,12 @@ for its exact exports.
 
 ## Getting Started
 
-Install/build the core CLI from [VyomKulshrestha/Nucle-OS](https://github.com/VyomKulshrestha/Nucle-OS), then:
+**Using VS Code?** Install the [**NucleScript extension**](https://marketplace.visualstudio.com/items?itemName=nuclescript.nuclescript)
+and you're done — highlighting, live diagnostics, hover, formatting, and a
+▷ **Run File** button that actually executes a program, all with nothing
+to build or download by hand.
+
+Prefer the terminal? Install/build the core CLI from [VyomKulshrestha/Nucle-OS](https://github.com/VyomKulshrestha/Nucle-OS), then:
 
 ```bash
 # Compile-only validation — no hardware, no execution
