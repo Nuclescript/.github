@@ -39,13 +39,24 @@ fn archive_with_guarantee(data: File, target: Pool<Illumina>, guarantee: Recover
 }
 ```
 
+`Result<T, E>` and `?` make storage failures genuinely catchable instead of
+aborting the whole program — a `store`/`delete` used in expression position
+produces a `Result<T, Str>` a function can unwrap or propagate:
+
+```nuclescript
+fn archive_with_fallback() returns Result<DnaFile, Str> {
+    let attempt: Result<DnaFile, Str> = store "genome.fasta" into primary
+    let saved: DnaFile = attempt?
+}
+```
+
 ---
 
 ## ⚡ Powered by NucleOS
 
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
-- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.0**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.0) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), and simulator profiles.
+- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.1**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.1) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, and `Result<T, E>`/`?` error propagation.
 - **Playground:** **[Live in your browser](https://nuclescript.github.io/playground/)** — compiled to WebAssembly, no server, redeployed automatically on every push. [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is the source: a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt native binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
 - **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
