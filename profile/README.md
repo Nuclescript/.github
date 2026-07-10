@@ -72,13 +72,26 @@ fn archive_with_retry() returns Result<DnaFile, Str> {
 }
 ```
 
+Functions can be anonymous, bound to a variable, and passed as
+arguments — real closures, with real lexical capture:
+
+```nuclescript
+fn retry_once(attempt_fn: Fn() -> Result<DnaFile, Str>) returns Result<DnaFile, Str> {
+    let attempt: Result<DnaFile, Str> = attempt_fn()
+    let saved: DnaFile = match attempt {
+        Ok(file) => file,
+        Err(reason) => attempt_fn()?
+    }
+}
+```
+
 ---
 
 ## ⚡ Powered by NucleOS
 
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
-- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.3**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.3) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation, generics over `Pool<T>`'s profile, and pattern matching over `Result<T, E>`.
+- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.4**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.4) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation, generics over `Pool<T>`'s profile, pattern matching over `Result<T, E>`, and closures/higher-order functions.
 - **Playground:** **[Live in your browser](https://nuclescript.github.io/playground/)** — compiled to WebAssembly, no server, redeployed automatically on every push. [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is the source: a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt native binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
 - **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
