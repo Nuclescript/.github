@@ -73,7 +73,8 @@ fn archive_with_retry() returns Result<DnaFile, Str> {
 ```
 
 Functions can be anonymous, bound to a variable, and passed as
-arguments — real closures, with real lexical capture:
+arguments — real closures, with real lexical capture, generic or
+self-recursive when nested inside an already-generic scope:
 
 ```nuclescript
 fn retry_once(attempt_fn: Fn() -> Result<DnaFile, Str>) returns Result<DnaFile, Str> {
@@ -85,13 +86,26 @@ fn retry_once(attempt_fn: Fn() -> Result<DnaFile, Str>) returns Result<DnaFile, 
 }
 ```
 
+`Ok(...)`/`Err(...)` construct a `Result` directly and compose with
+nested `match`/`?`; a generic call can spell out an explicit
+`::<Illumina>()` type argument for the one case inference alone can't
+resolve:
+
+```nuclescript
+fn archival_disabled() returns Result<DnaFile, Str> {
+    let disabled: Result<DnaFile, Str> = Err("archival is temporarily disabled by policy")
+}
+
+let recovered: Pool<Recovered> = recover_from::<Illumina>(noisy_illumina)
+```
+
 ---
 
 ## ⚡ Powered by NucleOS
 
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
-- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.4**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.4) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation, generics over `Pool<T>`'s profile, pattern matching over `Result<T, E>`, and closures/higher-order functions.
+- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.5**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.5) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation (incl. `Ok(...)`/`Err(...)` constructors composing with nested `match`), generics over `Pool<T>`'s profile (incl. explicit `::<Illumina>()` type arguments), pattern matching over `Result<T, E>`, and closures/higher-order functions (incl. generic and self-recursive closures).
 - **Playground:** **[Live in your browser](https://nuclescript.github.io/playground/)** — compiled to WebAssembly, no server, redeployed automatically on every push. [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is the source: a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt native binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
 - **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
