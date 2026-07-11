@@ -99,13 +99,37 @@ fn archival_disabled() returns Result<DnaFile, Str> {
 let recovered: Pool<Recovered> = recover_from::<Illumina>(noisy_illumina)
 ```
 
+NucleScript also has real user-defined `enum`s — `match` now handles both
+a user `enum` and the built-in `Result` uniformly, with free arm order
+and enforced exhaustiveness (every declared variant needs an arm, or a
+trailing wildcard `_` covers the rest):
+
+```nuclescript
+enum RecoveryPlan {
+    Retry,
+    Fallback,
+    GiveUp(Str),
+}
+
+fn archive_with_plan(plan: RecoveryPlan) returns Result<DnaFile, Str> {
+    let attempt: Result<DnaFile, Str> = store "genome.fasta" into primary
+    let saved: DnaFile = match attempt {
+        Ok(file) => file,
+        Err(reason) => match plan {
+            Retry => (store "genome.fasta" into primary)?,
+            _ => (store "genome_fallback.fasta" into secondary)?,
+        }
+    }
+}
+```
+
 ---
 
 ## ⚡ Powered by NucleOS
 
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
-- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.5**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.5) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation (incl. `Ok(...)`/`Err(...)` constructors composing with nested `match`), generics over `Pool<T>`'s profile (incl. explicit `::<Illumina>()` type arguments), pattern matching over `Result<T, E>`, and closures/higher-order functions (incl. generic and self-recursive closures).
+- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.6**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.6) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation (incl. `Ok(...)`/`Err(...)` constructors composing with nested `match`), generics over `Pool<T>`'s profile (incl. explicit `::<Illumina>()` type arguments), closures/higher-order functions (incl. generic and self-recursive closures), and user-defined `enum`s with a general pattern-matching/exhaustiveness engine.
 - **Playground:** **[Live in your browser](https://nuclescript.github.io/playground/)** — compiled to WebAssembly, no server, redeployed automatically on every push. [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is the source: a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt native binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
 - **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
