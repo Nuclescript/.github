@@ -123,13 +123,25 @@ fn archive_with_plan(plan: RecoveryPlan) returns Result<DnaFile, Str> {
 }
 ```
 
+A `Fn(...)`-typed parameter can now declare the effect ceiling its call is
+trusted to have — closing the one real gap closures left open: calling a
+parameter (unlike a `let`-bound closure) couldn't have its effect analyzed
+at all before, since the concrete closure a caller passes isn't knowable
+until runtime:
+
+```nuclescript
+fn archive_with_cleanup_policy(cleanup: Fn() -> Void confirm physical_key) returns Void {
+    let x: Void = cleanup()
+}
+```
+
 ---
 
 ## ⚡ Powered by NucleOS
 
 NucleScript programs compile directly down to virtual filesystem (VFS) operations executed by **[NucleOS](https://github.com/VyomKulshrestha/Nucle-OS)** — the software-defined DNA storage engine created by **[Vyom Kulshrestha](https://github.com/VyomKulshrestha)**.
 
-- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.6**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.6) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation (incl. `Ok(...)`/`Err(...)` constructors composing with nested `match`), generics over `Pool<T>`'s profile (incl. explicit `::<Illumina>()` type arguments), closures/higher-order functions (incl. generic and self-recursive closures), and user-defined `enum`s with a general pattern-matching/exhaustiveness engine.
+- **Core OS & Storage Engine:** Visit [**VyomKulshrestha/Nucle-OS**](https://github.com/VyomKulshrestha/Nucle-OS) — tagged at [**v0.1.7**](https://github.com/VyomKulshrestha/Nucle-OS/releases/tag/v0.1.7) — for the CLI, storage engine source, error-correction codecs (Reed-Solomon, Fountain, Ternary, Yin-Yang), simulator profiles, `Result<T, E>`/`?` error propagation (incl. `Ok(...)`/`Err(...)` constructors composing with nested `match`), generics over `Pool<T>`'s profile (incl. explicit `::<Illumina>()` type arguments), closures/higher-order functions (incl. generic and self-recursive closures), user-defined `enum`s with a general pattern-matching/exhaustiveness engine, and effect-annotated `Fn(...)` function types.
 - **Playground:** **[Live in your browser](https://nuclescript.github.io/playground/)** — compiled to WebAssembly, no server, redeployed automatically on every push. [**Nuclescript/playground**](https://github.com/Nuclescript/playground) is the source: a self-contained mirror of the engine plus an interactive web UI with three tabs — Write & Run (paste a `.nsl` program, see diagnostics/simulation/optimizer notes), Benchmark Explorer (live codec/profile/redundancy comparisons), and Pipeline Visualizer (animated encode → noise → recovery on real input). Prebuilt native binaries are on its [Releases](https://github.com/Nuclescript/playground/releases) page for anyone without `cargo`.
 - **Packages:** This organization's [package registry](https://github.com/orgs/Nuclescript/packages) hosts the official `@nuclescript` scope.
 
